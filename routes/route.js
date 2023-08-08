@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const registerController = require('../controller/registerController.js');
-
+const middleware = require('../middleware/auth.js');
 router.post('/register', registerController.createUser);
-router.get('./userDetails/:userId',registerController.getUser);
+router.post('/userLogin',  registerController.login);
+router.get('/userDetails/:userId', middleware.authentication,registerController.getUser);
+router.put('/updateUser/:userId', middleware.authentication,registerController.updateUser);
+router.delete('/deleteUser/:userId',middleware.authentication,registerController.deleteUser);
 module.exports = router;
